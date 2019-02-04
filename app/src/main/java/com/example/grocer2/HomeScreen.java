@@ -1,5 +1,6 @@
 package com.example.grocer2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -19,16 +20,19 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //create content view and setup toolbar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //set up navigation menu
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.requestLayout();
 
+        //set up listeners for navigation menu
         DrawerLayout mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout,
@@ -41,6 +45,10 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
     }
 
+    /**
+     * Function runs when the 'help' button is pressed, displaying assisting text
+     * @param view the content view of the page
+     */
     public void displayHelp(View view) {
         DialogFragment newHelpFragment = new HelpDialogFragment();
         newHelpFragment.show(getSupportFragmentManager(), "HelpDialog");
@@ -57,8 +65,31 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        return false;
+    /**
+     * Handles the actions that are started when each button is pressed on the navigation bar
+     * @param item the items that comprise the menu
+     * @return default boolean handler for a successful action start
+     */
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_food_list) {
+            startActivity(new Intent(HomeScreen.this, FoodList.class));
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

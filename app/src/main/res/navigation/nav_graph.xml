@@ -19,9 +19,4 @@
             android:id="@+id/action_helpDialogFragment_to_homeScreen"
             app:destination="@id/homeScreen" />
     </fragment>
-    <activity
-        android:id="@+id/navigationDrawer"
-        android:name="com.example.grocer2.NavigationDrawer"
-        android:label="activity_navigation_drawer"
-        tools:layout="@layout/activity_navigation_drawer" />
 </navigation>

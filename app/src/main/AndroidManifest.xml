@@ -15,9 +15,18 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".FoodList"
+            android:label="@string/title_activity_food_list"
+            android:parentActivityName=".NavigationDrawer"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.grocer2.NavigationDrawer" />
+        </activity>
+        <activity
             android:name=".NavigationDrawer"
             android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".HelpDialog" />
         <activity android:name=".HomeScreen">
             <intent-filter>
