@@ -3,11 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeScreen">
+    app:startDestination="@id/helpDialogFragment">
 
     <activity
         android:id="@+id/homeScreen"
         android:name="com.example.grocer2.HomeScreen"
         android:label="activity_home_screen"
         tools:layout="@layout/activity_home_screen" />
+    <fragment
+        android:id="@+id/helpDialogFragment"
+        android:name="com.example.grocer2.ui.helpdialog.HelpDialogFragment"
+        android:label="fragment_help_dialog"
+        tools:layout="@layout/fragment_help_dialog" >
+        <action
+            android:id="@+id/action_helpDialogFragment_to_homeScreen"
+            app:destination="@id/homeScreen" />
+    </fragment>
+    <activity
+        android:id="@+id/navigationDrawer"
+        android:name="com.example.grocer2.NavigationDrawer"
+        android:label="activity_navigation_drawer"
+        tools:layout="@layout/activity_navigation_drawer" />
 </navigation>
