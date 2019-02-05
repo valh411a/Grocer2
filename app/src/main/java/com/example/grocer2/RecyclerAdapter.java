@@ -1,53 +1,65 @@
 package com.example.grocer2;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
-    private String[] mDataset;
+import com.example.grocer2.Database.Food;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView mTextView;
-        public MyViewHolder(TextView v) {
-            super(v);
-            mTextView = v;
+import java.util.List;
+
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.FoodViewHolder> {
+
+    class FoodViewHolder extends RecyclerView.ViewHolder {
+        private final TextView foodItemView;
+
+        public FoodViewHolder(@NonNull View itemView) {
+            super(itemView);
+            foodItemView = itemView.findViewById(R.id.textView);
         }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    private final LayoutInflater inflater;
+    private List<Food> foodDataSet;
+
+    RecyclerAdapter(Context context) {
+        inflater = LayoutInflater.from(context);
     }
 
-    // Create new views (invoked by the layout manager)
+    @NonNull
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                           int viewType) {
-        // create a new view
-        TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_text_view, parent, false);
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
+    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View itemView = inflater.inflate(R.layout.recyclerview_item, viewGroup, false);
+        return new FoodViewHolder(itemView);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
-
+    public void onBindViewHolder(@NonNull FoodViewHolder foodViewHolder, int i) {
+        if(foodDataSet != null) {
+            Food current = foodDataSet.get(i);
+            foodViewHolder.foodItemView.setText(current.getFood());
+        } else {
+            foodViewHolder.foodItemView.setText("No Food");
+        }
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
+    void setFoods(List<Food> foods) {
+        foodDataSet = foods;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        if (foodDataSet != null)
+            return foodDataSet.size();
+        return 0;
     }
+
+
+
+
 }

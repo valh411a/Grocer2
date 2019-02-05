@@ -19,4 +19,9 @@
             android:id="@+id/action_helpDialogFragment_to_homeScreen"
             app:destination="@id/homeScreen" />
     </fragment>
+    <activity
+        android:id="@+id/foodList"
+        android:name="com.example.grocer2.FoodList"
+        android:label="activity_food_list"
+        tools:layout="@layout/activity_food_list" />
 </navigation>
