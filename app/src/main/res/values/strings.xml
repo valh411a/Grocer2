@@ -102,4 +102,11 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="empty_not_saved">Empty; Not Saved</string>
+    <string name="food_name_entry_title">Name</string>
+    <string name="food_name_entry_field">Name</string>
+    <string name="food_upc_entry_title">UPC Code</string>
+    <string name="food_upc_entry_field">ExampleFood</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 </resources>

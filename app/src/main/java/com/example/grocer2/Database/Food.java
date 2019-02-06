@@ -11,18 +11,14 @@ public class Food {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "upc")
-    private int upc;
+    private long upc;
 
     @ColumnInfo(name = "name")
     private String name;
 
-    public Food(String name, int upc) {
+    public Food(String name, long upc) {
         this.name = name;
         this.upc = upc;
-    }
-
-    public int getFood() {
-        return 0;
     }
 
     public String getName() {
@@ -33,7 +29,11 @@ public class Food {
         this.name = name;
     }
 
-    public int getUpc() {
+    public long getUpc() {
         return upc;
+    }
+
+    public String getFood() {
+        return name;
     }
 }
