@@ -19,13 +19,12 @@ import java.util.List;
 
 public class FoodList extends AppCompatActivity {
 
-    FoodViewModel foodViewModel;
+    FoodViewModel foodViewModel = ViewModelProviders.of(this).get(FoodViewModel.class);
 
     public static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        foodViewModel = ViewModelProviders.of(this).get(FoodViewModel.class);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
         Toolbar toolbar = findViewById(R.id.toolbar);

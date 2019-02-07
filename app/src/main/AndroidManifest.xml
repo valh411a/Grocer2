@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AddNewFood"></activity>
+        <activity android:name=".AddNewFood"
+            />
         <activity
             android:name=".FoodList"
             android:label="@string/title_activity_food_list"

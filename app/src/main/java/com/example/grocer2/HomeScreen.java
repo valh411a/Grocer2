@@ -1,13 +1,13 @@
 package com.example.grocer2;
 
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,13 +18,25 @@ import com.example.grocer2.ui.helpdialog.HelpDialogFragment;
 
 public class HomeScreen extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    FragmentManager fragmentManager;
+    DrawerLayout mDrawerLayout;
+    FoodViewModel foodViewModel;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         //create content view and setup toolbar
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen);
+        setContentView(R.layout.fragment_home_screen);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fragmentManager = getFragmentManager();
+        foodViewModel = ViewModelProviders.of(this).get(FoodViewModel.class);
+
 
         //set up navigation menu
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -33,7 +45,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         navigationView.requestLayout();
 
         //set up listeners for navigation menu
-        DrawerLayout mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout,
                 toolbar,
@@ -71,11 +83,15 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
      * @return default boolean handler for a successful action start
      */
     public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment fragment = null;
+        Class fragmentClass = null;
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_food_list) {
-            startActivity(new Intent(HomeScreen.this, FoodList.class));
+            fragmentClass = food_list.class;
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -88,8 +104,21 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        try {
+            if (fragmentClass != null) {
+                fragment = (Fragment) fragmentClass.newInstance();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (fragment != null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        }
+        item.setChecked(true);
+        setTitle(item.getTitle());
+        mDrawerLayout.closeDrawers();
         return true;
     }
 }
