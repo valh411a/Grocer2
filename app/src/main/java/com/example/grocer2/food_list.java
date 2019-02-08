@@ -21,14 +21,6 @@ import com.example.grocer2.Database.Food;
 import static android.app.Activity.RESULT_OK;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link food_list.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link food_list#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class food_list extends Fragment {
 
     private static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;

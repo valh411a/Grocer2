@@ -44,6 +44,21 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         navigationView.bringToFront();
         navigationView.requestLayout();
 
+        Fragment fragment = null;
+        Class fragmentClass = null;
+        fragmentClass = home_screen.class;
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (fragment != null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+        }
+
         //set up listeners for navigation menu
         mDrawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
