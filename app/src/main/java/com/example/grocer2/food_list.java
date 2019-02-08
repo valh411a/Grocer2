@@ -4,14 +4,21 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.example.grocer2.Database.Food;
+
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -24,8 +31,10 @@ import android.view.ViewGroup;
  */
 public class food_list extends Fragment {
 
+    private static final int NEW_FOOD_ACTIVITY_REQUEST_CODE = 1;
     private OnFragmentInteractionListener mListener;
-    private FragmentManager fragmentManager = getFragmentManager();
+    private FragmentManager fragmentManager;
+    private FoodViewModel foodViewModel;
 
     public food_list() {
         // Required empty public constructor
@@ -54,27 +63,18 @@ public class food_list extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_food_list, container, false);
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        fragmentManager = getFragmentManager();
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        RecyclerView mRecyclerView = getView().findViewById(R.id.RecyclerView);
-        final RecyclerView.Adapter mAdapter = new RecyclerAdapter(context);
+        View rootView = inflater.inflate(R.layout.fragment_food_list, container, false);
+
+        RecyclerView mRecyclerView = rootView.findViewById(R.id.RecyclerView);
+        final RecyclerView.Adapter mAdapter = new RecyclerAdapter(getActivity());
         mRecyclerView.setAdapter(mAdapter);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        FloatingActionButton fab = getView().findViewById(R.id.fab);
+        FloatingActionButton fab = rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,10 +88,28 @@ public class food_list extends Fragment {
                     e.printStackTrace();
                 }
 
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                if (fragment != null) {
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+                }
             }
         });
+
+        return rootView;
+
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
     }
 
     @Override
@@ -113,5 +131,24 @@ public class food_list extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bundle extras;
+
+        if (requestCode == NEW_FOOD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            extras = data.getExtras();
+            Food food = new Food(
+                    extras.getString("FOOD_NAME"),
+                    extras.getLong("UPC_CODE"));
+            foodViewModel.saveFood(food);
+        } else {
+            Toast.makeText(
+                    getContext(),
+                    R.string.empty_not_saved,
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -1,12 +1,20 @@
 package com.example.grocer2;
 
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -20,13 +28,9 @@ import android.view.ViewGroup;
 public class new_food_page extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    EditText mEditFoodNameView;
+    EditText mEditFoodUPCView;
+    private FragmentManager fragmentManager = getFragmentManager();
     private OnFragmentInteractionListener mListener;
 
     public new_food_page() {
@@ -50,16 +54,47 @@ public class new_food_page extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_new_food_page, container, false);
+
+        mEditFoodNameView = rootView.findViewById(R.id.edit_name);
+        mEditFoodUPCView = rootView.findViewById(R.id.edit_upc);
+        final Button saveButton = rootView.findViewById(R.id.button_save);
+        final Button cancelButton = rootView.findViewById(R.id.button_cancel);
+        final Bundle extras = new Bundle();
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent replyIntent = new Intent();
+                if (TextUtils.isEmpty(mEditFoodNameView.getText())) {
+                    getActivity().setResult(RESULT_CANCELED, replyIntent);
+                } else {
+                    String food = mEditFoodNameView.getText().toString();
+                    long upc = Long.parseLong(mEditFoodUPCView.getText().toString());
+                    extras.putString("FOOD_NAME", food);
+                    extras.putLong("UPC_CODE", upc);
+                    replyIntent.putExtras(extras);
+                    getActivity().setResult(RESULT_OK, replyIntent);
+                }
+                getActivity().finish();
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent replyIntent = new Intent();
+                getActivity().setResult(RESULT_CANCELED, replyIntent);
+                getActivity().finish();
+            }
+        });
+
         return inflater.inflate(R.layout.fragment_new_food_page, container, false);
     }
 
@@ -73,12 +108,6 @@ public class new_food_page extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override

@@ -69,7 +69,7 @@ public class NavigationDrawer extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_food_list) {
-            startActivity(new Intent(NavigationDrawer.this, FoodList.class));
+            startActivity(new Intent(NavigationDrawer.this, food_list.class));
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

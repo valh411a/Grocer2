@@ -30,7 +30,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
 
         //create content view and setup toolbar
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_home_screen);
+        setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
