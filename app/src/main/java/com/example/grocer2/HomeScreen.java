@@ -1,8 +1,8 @@
 package com.example.grocer2;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -34,7 +34,7 @@ public class HomeScreen extends AppCompatActivity implements NavigationView.OnNa
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        fragmentManager = getFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         foodViewModel = ViewModelProviders.of(this).get(FoodViewModel.class);
 
 

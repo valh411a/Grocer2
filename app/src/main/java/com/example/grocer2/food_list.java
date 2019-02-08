@@ -1,14 +1,17 @@
 package com.example.grocer2;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,6 +53,8 @@ public class food_list extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getArguments();
+        foodViewModel = ViewModelProviders.of(this).get(FoodViewModel.class);
+
     }
 
     @Override
@@ -61,9 +66,9 @@ public class food_list extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_food_list, container, false);
 
         RecyclerView mRecyclerView = rootView.findViewById(R.id.RecyclerView);
-        final RecyclerView.Adapter mAdapter = new RecyclerAdapter(getActivity());
+        RecyclerView.Adapter mAdapter = new RecyclerAdapter(this.getContext());
         mRecyclerView.setAdapter(mAdapter);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         FloatingActionButton fab = rootView.findViewById(R.id.fab);

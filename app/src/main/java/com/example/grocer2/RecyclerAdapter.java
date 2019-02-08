@@ -15,11 +15,11 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.FoodViewHolder> {
 
     class FoodViewHolder extends RecyclerView.ViewHolder {
-        private final TextView foodItemView;
+        public TextView foodItemView;
 
-        public FoodViewHolder(@NonNull View itemView) {
+        public FoodViewHolder(@NonNull TextView itemView) {
             super(itemView);
-            foodItemView = itemView.findViewById(R.id.textView);
+            foodItemView = itemView;
         }
     }
 
@@ -32,8 +32,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.FoodVi
 
     @NonNull
     @Override
-    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = inflater.inflate(R.layout.recyclerview_item, viewGroup, false);
+    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+
+        TextView itemView = (TextView) inflater.inflate(R.layout.recyclerview_item, viewGroup, false);
         return new FoodViewHolder(itemView);
     }
 
