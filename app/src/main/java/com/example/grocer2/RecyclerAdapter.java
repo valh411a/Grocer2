@@ -1,6 +1,5 @@
 package com.example.grocer2;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,39 +11,43 @@ import com.example.grocer2.Database.Food;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.FoodViewHolder> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 
-    class FoodViewHolder extends RecyclerView.ViewHolder {
-        public TextView foodItemView;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public FoodViewHolder(@NonNull TextView itemView) {
-            super(itemView);
-            foodItemView = itemView;
+        public TextView txtViewTitle;
+
+        public ViewHolder(View itemLayoutView) {
+            super(itemLayoutView);
+            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.textView);
         }
     }
 
-    private final LayoutInflater inflater;
     private List<Food> foodDataSet;
 
-    RecyclerAdapter(Context context) {
-        inflater = LayoutInflater.from(context);
+    RecyclerAdapter() {
     }
 
     @NonNull
     @Override
-    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
-        TextView itemView = (TextView) inflater.inflate(R.layout.recyclerview_item, viewGroup, false);
-        return new FoodViewHolder(itemView);
+        View itemLayoutView = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.recyclerview_item, null);
+
+        // create ViewHolder
+
+        return new ViewHolder(itemLayoutView);
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FoodViewHolder foodViewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder foodViewHolder, int i) {
         if(foodDataSet != null) {
             Food current = foodDataSet.get(i);
-            foodViewHolder.foodItemView.setText(current.getFood());
+            foodViewHolder.txtViewTitle.setText(current.getFood());
         } else {
-            foodViewHolder.foodItemView.setText("No Food");
+            foodViewHolder.txtViewTitle.setText("No Food");
         }
     }
 

@@ -3,46 +3,30 @@ package com.example.grocer2;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
 
-import com.example.grocer2.Database.AppDatabase;
+import com.example.grocer2.Database.AppRepository;
 import com.example.grocer2.Database.Food;
-import com.example.grocer2.Database.FoodDao;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class FoodViewModel extends AndroidViewModel {
 
-    private FoodDao foodDao;
-    private ExecutorService executorService;
+    private AppRepository mRepository;
+    private LiveData<List<Food>> mAllFoods;
 
-    public FoodViewModel(@NonNull Application application) {
+    public FoodViewModel(Application application) {
         super(application);
-        foodDao = AppDatabase.getDatabase(application).foodDao();
-        executorService = Executors.newSingleThreadExecutor();
+        mRepository = new AppRepository(application);
+        mAllFoods = mRepository.getAllFoods();
     }
 
-    LiveData<List<Food>> getAllFoods() {
-        return foodDao.getAllFoods();
-    }
+    LiveData<List<Food>> getAllFoods() {return mAllFoods; }
 
     void saveFood(final Food food) {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                foodDao.insert(food);
-            }
-        });
+        mRepository.insert(food);
     }
 
     void deleteFood(final Food food) {
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                foodDao.delete(food);
-            }
-        });
+        mRepository.delete(food);
     }
 }

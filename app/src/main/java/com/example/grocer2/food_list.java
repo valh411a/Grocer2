@@ -11,7 +11,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,10 +65,9 @@ public class food_list extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_food_list, container, false);
 
         RecyclerView mRecyclerView = rootView.findViewById(R.id.RecyclerView);
-        RecyclerView.Adapter mAdapter = new RecyclerAdapter(this.getContext());
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerAdapter mAdapter = new RecyclerAdapter();
         mRecyclerView.setAdapter(mAdapter);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
 
         FloatingActionButton fab = rootView.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

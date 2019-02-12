@@ -11,18 +11,22 @@ public class AppRepository {
     private FoodDao foodDao;
     private LiveData<List<Food>> allFoods;
 
-    AppRepository(Application application) {
+    public AppRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         foodDao = db.foodDao();
         allFoods = foodDao.getAllFoods();
     }
 
-    LiveData<List<Food>> getAllFoods() {
+    public LiveData<List<Food>> getAllFoods() {
         return allFoods;
     }
 
     public void insert (Food food) {
         new insertAsyncTask(foodDao).execute(food);
+    }
+
+    public void delete(Food food) {
+        new deleteAsyncTask(foodDao).execute(food);
     }
 
     private static class insertAsyncTask extends AsyncTask<Food, Void, Void> {
@@ -36,6 +40,21 @@ public class AppRepository {
         @Override
         protected Void doInBackground(final Food... foods) {
             aSyncTaskDao.insert(foods[0]);
+            return null;
+        }
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<Food, Void, Void> {
+
+        private FoodDao aSyncTaskDao;
+
+        deleteAsyncTask(FoodDao foodDao) {
+            aSyncTaskDao = foodDao;
+        }
+
+        @Override
+        protected Void doInBackground(final Food... foods) {
+            aSyncTaskDao.delete(foods[0]);
             return null;
         }
     }
